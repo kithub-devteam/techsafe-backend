@@ -98,27 +98,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'techsafe_api.wsgi.application'
 
-# Database configuration
-if 'DATABASE_URL' in os.environ:
-    # Production database (PostgreSQL)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DATABASE_NAME'),
-            'USER': os.environ.get('DATABASE_USER'),
-            'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-            'HOST': os.environ.get('DATABASE_HOST'),
-            'PORT': os.environ.get('DATABASE_PORT', '5432'),
-        }
-    }
-else:
+
+DATABASES = {
+'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'techsafedb',
+    'USER': 'techsafe_user',
+    'PASSWORD': 'Pz8H8JEVRxf7qU5rSnZpWua8yiOlFaJ3',
+    'HOST': 'dpg-cta8vnaj1k6c738jhv50-a.oregon-postgres.render.com',
+    'PORT': '5432',
+}
+}
+
     # Development database (SQLite)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

@@ -5,18 +5,22 @@ from django.utils.text import slugify
 
 class UserManager(BaseUserManager):
     def create_user(self, password=None, **extra_fields):
-        email = extra_fields.get('email')
-        phone_number= extra_fields.get('phone_number')
-        username = extra_fields.get('username')
+        email = extra_fields.pop('email', None)  # On retire email des extra_fields
+        phone_number = extra_fields.pop('phone_number', None)  # On retire phone_number des extra_fields
+        username = extra_fields.pop('username', None)  # On retire username des extra_fields
         
         if not email and not phone_number:
             raise ValueError('Email ou numéro de téléphone requis')
             
         if email:
             email = self.normalize_email(email)
-            user = self.model(email=email, username=username, **extra_fields)
-        else:
-            user = self.model(username=username, **extra_fields)
+            
+        # Créer l'utilisateur avec les champs extraits
+        user = self.model(
+            email=email,
+            username=username,
+            **extra_fields
+        )
             
         user.set_password(password)
         user.save(using=self._db)
@@ -26,7 +30,7 @@ class UserManager(BaseUserManager):
             
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(self, email, username, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         
@@ -38,8 +42,13 @@ class UserManager(BaseUserManager):
             defaults={'status': 'disponible'}
         )
         extra_fields['idrole'] = role
-        return self.create_user(password=password, email=email, **extra_fields)
-
+        
+        return self.create_user(
+            email=email,
+            username=username,
+            password=password,
+            **extra_fields
+        )
 class Role(models.Model):
     JEUNE = 'jeune'
     CHERCHEUR = 'chercheur'
