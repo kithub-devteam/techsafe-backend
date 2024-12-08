@@ -1,12 +1,13 @@
 # Python/Django specific
-*.pyc
-__pycache__/
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.env
-db.sqlite3
-media/
-static/
+techsafe_api/*.pyc
+techsafe_api/__pycache__/
+techsafe_api/*.pyo
+techsafe_api/*.pyd
+techsafe_api/.Python
+techsafe_api/env/
+techsafe_api/venv/
+techsafe_api/.env
+techsafe_api/db.sqlite3
+/venv
+
+
