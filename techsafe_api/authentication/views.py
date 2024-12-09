@@ -165,3 +165,25 @@ def get_available_roles(request):
     roles = Role.objects.filter(status='disponible')
     serializer = RoleSerializer(roles, many=True)
     return Response(serializer.data)
+
+class GetUserFromTokenView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            user = request.user
+            return Response({
+                'success': True,
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'username': user.username,
+                    'role': user.idrole.role if user.idrole else None,
+                    # Ajoutez d'autres champs selon vos besoins
+                }
+            })
+        except Exception as e:
+            return Response({
+                'success': False,
+                'message': str(e)
+            }, status=500)
